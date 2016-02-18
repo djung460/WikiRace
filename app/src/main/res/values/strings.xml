@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">WikiRace</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="menu_title">WIKI RACE</string>
+    <string name="start_button">START</string>
+    <string name="settings_button">SETTINGS</string>
 </resources>
