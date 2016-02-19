@@ -2,6 +2,7 @@ package com.example.android.wikirace;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -20,11 +21,10 @@ public class GameWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-
-//        if() {
-//            Toast.makeText(mContext, "Game Done!", Toast.LENGTH_SHORT).show();
-//        }
+        String[] splitUrl = url.split("/");
+        if(splitUrl[splitUrl.length - 1].replace('_',' ').equals(mDestArticle.getTitle())) {
+            Log.i("YOU WIN","YAAAAAY");
+        }
 
         return false;
     }

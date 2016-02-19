@@ -15,6 +15,8 @@ import android.widget.Button;
 /**
  * Full-screen activity for the game menu.
  */
+//TODO: Handle Screen rotation
+
 public class GameMenu extends AppCompatActivity {
     private Button mStartButton;
     private Button mSettingsButton;

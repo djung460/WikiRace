@@ -13,7 +13,7 @@
     <WebView
         android:id="@+id/wiki_web_view"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="450dp"
         android:layout_gravity="center">
 
     </WebView>
@@ -22,14 +22,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"
+        android:background="@android:color/white"
         android:text="@string/pages_visited_heading"
         android:layout_gravity="left|top" />
 
     <TextView
+        android:id="@+id/num_pages_visited"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"
         android:text="@string/num_pages_visited"
         android:layout_gravity="right|top" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:text="@string/destination_article"
+        android:layout_gravity="center_horizontal|bottom"
+        android:id="@+id/dest_article_title_textview" />
 
 </FrameLayout>

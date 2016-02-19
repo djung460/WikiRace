@@ -73,6 +73,8 @@ public class WikiQueries {
         return articleUrl;
     }
 
+
+
     public static String jsonStringFromUrl(String urlText) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
