@@ -1,5 +1,6 @@
 package com.example.android.wikirace;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
@@ -13,10 +14,6 @@ public class ArticleAsyncTask extends AsyncTask <String, Long, List<Article>>{
 
     public interface AsyncResponse {
         void processFinish(List<Article> output);
-    }
-
-    public ArticleAsyncTask(AsyncResponse delegate) {
-        this.delegate = delegate;
     }
 
     @Override
