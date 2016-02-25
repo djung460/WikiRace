@@ -1,6 +1,7 @@
 package com.example.android.wikirace;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 import android.webkit.WebView;
@@ -27,7 +28,7 @@ public class GameWebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         String[] splitUrl = url.split("/");
 
-        Log.i("Host Name" ,Uri.parse(url).getHost());
+        Log.i("Host Name", Uri.parse(url).getHost());
 
         if(Uri.parse(url).getHost().contains("wikipedia.org")) {
             if(splitUrl[splitUrl.length - 1].replace('_',' ').equals(mDestArticle.getTitle())) {
@@ -42,53 +43,49 @@ public class GameWebViewClient extends WebViewClient {
     }
 
     @Override
-    public void onPageFinished(WebView view, String url) {
+    public void onLoadResource(WebView view, String url) {
         hideElements(view);
     }
 
-    private void hideElements(WebView view) {
-        //Hide Menu button
+    public static void hideElements(WebView view) {
+        //Remove Header
         view.loadUrl("javascript:(function() { " +
-                "document.getElementsByClassName('mw-ui-icon mw-ui-icon-element " +
-                "mw-ui-icon-mainmenu main-menu-button')[0].style.display='none'; })()");
-        //Hide Search bar
-        view.loadUrl("javascript:(function() { " +
-                "document.getElementsByClassName('search')[0].style.display='none'; })()");
-        //Hide Edit buttons
+                "document.getElementsByClassName('header')[0].remove(); })()");
+        //Remove Edit buttons
         view.loadUrl(
                 "javascript:(function() { " +
                         "var editButtons = document.getElementsByClassName('mw-ui-icon mw-ui-icon-element mw-ui-icon-edit-enabled');" +
                         "var i; " +
                         "for(i = 0; i < editButtons.length; i++) { " +
-                                "editButtons[i].style.display='none'; " +
+                                "editButtons[i].remove(); " +
                             "}" +
                         "})()"
         );
 
 
-        //Hide Language Selector
+        //Remove Language Selector
         view.loadUrl(
                 "javascript:(function() { " +
-                        "document.getElementsByClassName('languageSelector mw-ui-button button')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('languageSelector mw-ui-button button')[0].remove(); " +
                         "})()"
         );
 
-        //Hide Last Modified By
+        //Remove Last Modified By
         view.loadUrl(
                 "javascript:(function() { " +
-                        "document.getElementsByClassName('truncated-text last-modified-bottom')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('truncated-text last-modified-bottom')[0].remove(); " +
                         "})()"
         );
-        //Hide Footer
+        //Remove Footer
         view.loadUrl(
                 "javascript:(function() { " +
-                    "document.getElementsByClassName('footer-info')[0].style.display = 'none'; " +
+                    "document.getElementsByClassName('footer-info')[0].remove(); " +
                 "})()"
         );
-        //Hide Footer
+        //Remove Footer
         view.loadUrl(
                 "javascript:(function() { " +
-                        "document.getElementsByClassName('footer-places')[0].style.display = 'none'; " +
+                        "document.getElementsByClassName('footer-places')[0].remove(); " +
                         "})()"
         );
     }
