@@ -30,7 +30,7 @@ public class DestArticleFragment extends DialogFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dest_article_viewgroup, container, false);
+        View v = inflater.inflate(R.layout.dest_article_dialog, container, false);
         mDestArticle = (TextView) v.findViewById(R.id.dest_article_text_view);
 
         String extract = getArguments().getString("extract");
