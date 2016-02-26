@@ -1,8 +1,12 @@
 package com.example.android.wikirace;
 
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,16 +22,15 @@ public class GameWebViewClient extends WebViewClient {
 
     private Article mDestArticle;
     private Context mContext;
-    private boolean mClickable;
+    public WebViewClientResponse delegate;
+
+    public interface WebViewClientResponse {
+        void pageLoaded();
+    }
 
     public GameWebViewClient(Article destArticle, Context context) {
         mDestArticle = destArticle;
         mContext = context;
-        mClickable = true;
-    }
-
-    public GameWebViewClient() {
-        mClickable = false;
     }
 
     @Override
@@ -36,7 +39,16 @@ public class GameWebViewClient extends WebViewClient {
 
         Log.i("Host Name", Uri.parse(url).getHost());
 
-        if(Uri.parse(url).getHost().contains("wikipedia.org") && mClickable) {
+        Service incrementCounter = new Service() {
+            @Nullable
+            @Override
+            public IBinder onBind(Intent intent) {
+
+                return null;
+            }
+        };
+
+        if(Uri.parse(url).getHost().contains("wikipedia.org")) {
             if(splitUrl[splitUrl.length - 1].replace('_',' ').equals(mDestArticle.getTitle())) {
                 Toast.makeText(mContext,"WOO YOU WIN!",Toast.LENGTH_SHORT).show();
                 Log.i("YOU WIN","YAAAAAY");
@@ -51,6 +63,11 @@ public class GameWebViewClient extends WebViewClient {
     @Override
     public void onLoadResource(WebView view, String url) {
         hideElements(view);
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        delegate.pageLoaded();
     }
 
     public static void hideElements(WebView view) {

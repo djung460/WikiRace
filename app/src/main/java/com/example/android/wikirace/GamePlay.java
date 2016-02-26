@@ -14,9 +14,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.AsyncResponse {
+public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.AsyncResponse, GameWebViewClient.WebViewClientResponse {
     private WebView mStartWebView;
     private TextView mDestArticleTitle;
+    private TextView mPagesVisited;
     private ImageButton mBackButton;
     private List<Article> articles = new ArrayList<>();
 
@@ -24,6 +25,8 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
     private Article mDestArticle;
 
     private ArticleAsyncTask wikiQueryTask = new ArticleAsyncTask();
+
+    private int numPagesVisited = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
         setContentView(R.layout.activity_game_play);
 
         mBackButton = (ImageButton) findViewById(R.id.back_button);
+        mPagesVisited = (TextView) findViewById(R.id.num_pages_visited);
 
         wikiQueryTask.delegate = this;
         wikiQueryTask.execute("Execute");
@@ -54,6 +58,7 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
         mStartWebView.loadUrl(mStartArticle.getUrl());
 
         GameWebViewClient client = new GameWebViewClient(articles.get(1), this);
+        client.delegate = this;
         mStartWebView.setWebViewClient(client);
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
@@ -80,5 +85,11 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
     private void showDialog() {
         DestArticleFragment dialogFragment = DestArticleFragment.newInstance(mDestArticle.getExtract());
         dialogFragment.show(getFragmentManager(),"dialog");
+    }
+
+    @Override
+    public void pageLoaded() {
+        numPagesVisited++;
+        mPagesVisited.setText(Integer.toString(numPagesVisited));
     }
 }
