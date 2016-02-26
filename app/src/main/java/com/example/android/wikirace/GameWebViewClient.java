@@ -18,10 +18,16 @@ public class GameWebViewClient extends WebViewClient {
 
     private Article mDestArticle;
     private Context mContext;
+    private boolean mClickable;
 
     public GameWebViewClient(Article destArticle, Context context) {
         mDestArticle = destArticle;
         mContext = context;
+        mClickable = true;
+    }
+
+    public GameWebViewClient() {
+        mClickable = false;
     }
 
     @Override
@@ -30,7 +36,7 @@ public class GameWebViewClient extends WebViewClient {
 
         Log.i("Host Name", Uri.parse(url).getHost());
 
-        if(Uri.parse(url).getHost().contains("wikipedia.org")) {
+        if(Uri.parse(url).getHost().contains("wikipedia.org") && mClickable) {
             if(splitUrl[splitUrl.length - 1].replace('_',' ').equals(mDestArticle.getTitle())) {
                 Toast.makeText(mContext,"WOO YOU WIN!",Toast.LENGTH_SHORT).show();
                 Log.i("YOU WIN","YAAAAAY");

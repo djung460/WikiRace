@@ -31,6 +31,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class WikiQueries {
     public static final String apiArticleTitlesIds = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=random&utf8=1&rnnamespace=0&rnlimit=2";
     public static final String apiArticleUrl = "https://en.wikipedia.org/w/api.php?action=query&prop=info&inprop=url&pageids=";
+    public static final String apiArticleExtract = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&pageids=";
 
     public static List<Article> getTwoRandomArticles() {
         ArrayList<Article> articles = new ArrayList<>();
@@ -48,7 +49,8 @@ public class WikiQueries {
                 String title = jsonArticle.getString("title");
                 Long id = jsonArticle.getLong("id");
                 String url = getArticleUrl(id);
-                articles.add(new Article(title,id,url));
+                String extract = getExtract(id);
+                articles.add(new Article(title,id,url,extract));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,7 +75,21 @@ public class WikiQueries {
         return articleUrl;
     }
 
+    public static String getExtract(Long id) throws JSONException {
+        String articleExtract = null;
 
+        String url = apiArticleExtract + Long.toString(id);
+        String jsonString = jsonStringFromUrl(url);
+
+        JSONObject jsonObject = (JSONObject) new JSONObject(jsonString);
+        JSONObject jsonQueryObject = (JSONObject) jsonObject.get("query");
+        JSONObject jsonPagesObject = (JSONObject) jsonQueryObject.get("pages");
+        JSONObject jsonArticleObject = (JSONObject) jsonPagesObject.get(Long.toString(id));
+        articleExtract = jsonArticleObject.getString("extract");
+        Log.i("articleExtract",articleExtract);
+        return articleExtract;
+
+    }
 
     public static String jsonStringFromUrl(String urlText) {
         HttpURLConnection urlConnection = null;

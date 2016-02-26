@@ -4,13 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/dest_article_web_view"
+    <TextView
+        android:id="@+id/dest_article_text_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
-
-    </WebView>
+    </TextView>
 
 </LinearLayout>

@@ -1,15 +1,13 @@
 package com.example.android.wikirace;
 
-import android.content.Context;
+import android.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,10 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.AsyncResponse {
-    private WebView mWikiWebView;
+    private WebView mStartWebView;
     private TextView mDestArticleTitle;
     private ImageButton mBackButton;
     private List<Article> articles = new ArrayList<>();
+
+    private Article mStartArticle;
+    private Article mDestArticle;
 
     private ArticleAsyncTask wikiQueryTask = new ArticleAsyncTask();
 
@@ -31,6 +32,8 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
 
+        mBackButton = (ImageButton) findViewById(R.id.back_button);
+
         wikiQueryTask.delegate = this;
         wikiQueryTask.execute("Execute");
     }
@@ -39,25 +42,43 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
     @Override
     public void processFinish(List<Article> output) {
         articles = output;
-        mWikiWebView = (WebView) findViewById(R.id.wiki_web_view);
-        WebSettings webSettings = mWikiWebView.getSettings();
+
+        mStartArticle = articles.get(0);
+        mDestArticle = articles.get(1);
+
+        mStartWebView = (WebView) findViewById(R.id.wiki_web_view);
+        WebSettings webSettings = mStartWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        mBackButton = (ImageButton) findViewById(R.id.back_button);
-        mDestArticleTitle = (TextView) findViewById(R.id.dest_article_title_textview);
-        mDestArticleTitle.setText(articles.get(1).getTitle());
+        //Loads url onto the start webview
+        mStartWebView.loadUrl(mStartArticle.getUrl());
 
-        mWikiWebView.loadUrl(articles.get(0).getUrl());
         GameWebViewClient client = new GameWebViewClient(articles.get(1), this);
-        mWikiWebView.setWebViewClient(client);
+        mStartWebView.setWebViewClient(client);
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mWikiWebView.canGoBack()) {
-                    mWikiWebView.goBack();
+                if (mStartWebView.canGoBack()) {
+                    mStartWebView.goBack();
                 }
             }
         });
+
+        //Sets the destination article title
+        mDestArticleTitle = (TextView) findViewById(R.id.dest_article_title_textview);
+        mDestArticleTitle.setText(mDestArticle.getTitle());
+
+        mDestArticleTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
+    }
+
+    private void showDialog() {
+        DestArticleFragment dialogFragment = DestArticleFragment.newInstance(mDestArticle.getExtract());
+        dialogFragment.show(getFragmentManager(),"dialog");
     }
 }
