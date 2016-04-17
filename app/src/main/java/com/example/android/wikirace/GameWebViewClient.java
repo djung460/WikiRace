@@ -1,18 +1,13 @@
 package com.example.android.wikirace;
 
-import android.app.Service;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import java.net.URI;
 
 /**
  * Created by David Jung on 2016-02-17.
@@ -24,6 +19,9 @@ public class GameWebViewClient extends WebViewClient {
     private Context mContext;
     public WebViewClientResponse delegate;
 
+    ProgressDialog mProgress;
+
+
     public interface WebViewClientResponse {
         void pageLoaded();
     }
@@ -31,6 +29,7 @@ public class GameWebViewClient extends WebViewClient {
     public GameWebViewClient(Article destArticle, Context context) {
         mDestArticle = destArticle;
         mContext = context;
+        mProgress = new ProgressDialog(context);
     }
 
     @Override
@@ -39,15 +38,7 @@ public class GameWebViewClient extends WebViewClient {
 
         Log.i("Host Name", Uri.parse(url).getHost());
 
-        Service incrementCounter = new Service() {
-            @Nullable
-            @Override
-            public IBinder onBind(Intent intent) {
-
-                return null;
-            }
-        };
-
+        //MOVE THIS INTO MODEL
         if(Uri.parse(url).getHost().contains("wikipedia.org")) {
             if(splitUrl[splitUrl.length - 1].replace('_',' ').equals(mDestArticle.getTitle())) {
                 Toast.makeText(mContext,"WOO YOU WIN!",Toast.LENGTH_SHORT).show();
@@ -61,16 +52,26 @@ public class GameWebViewClient extends WebViewClient {
     }
 
     @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        super.onPageStarted(view, url, favicon);
+        mProgress.setTitle("Loading");
+        mProgress.setMessage("Fetching Article...");
+        mProgress.show();
+    }
+
+    @Override
     public void onLoadResource(WebView view, String url) {
         hideElements(view);
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {
+        // Get rid of progress
+        mProgress.dismiss();
         delegate.pageLoaded();
     }
 
-    public static void hideElements(WebView view) {
+    private void hideElements(WebView view) {
         //Remove Header
         view.loadUrl("javascript:(function() { " +
                 "document.getElementsByClassName('header')[0].remove(); })()");

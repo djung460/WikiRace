@@ -1,8 +1,7 @@
 package com.example.android.wikirace;
 
-import android.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -87,6 +86,7 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
         dialogFragment.show(getFragmentManager(),"dialog");
     }
 
+    //TODO: MOVE THIS INTO MODEL
     @Override
     public void pageLoaded() {
         numPagesVisited++;
