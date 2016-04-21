@@ -7,4 +7,7 @@
     <string name="pages_visited_heading">Pages Visited</string>
     <string name="num_pages_visited">0</string>
     <string name="destination_article">Destination article</string>
+    <string name="restart_dialog_title">Restart game?</string>
+    <string name="restart_yes">Yes</string>
+    <string name="restart_no">No</string>
 </resources>

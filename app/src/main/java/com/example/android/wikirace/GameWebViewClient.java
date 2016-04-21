@@ -54,8 +54,7 @@ public class GameWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
-        mProgress.setTitle("Loading");
-        mProgress.setMessage("Fetching Article...");
+        mProgress.setMessage("Fetching Article");
         mProgress.show();
     }
 

@@ -1,12 +1,8 @@
 package com.example.android.wikirace;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,7 +13,7 @@ import android.widget.Button;
  */
 //TODO: Handle Screen rotation
 
-public class GameMenu extends AppCompatActivity {
+public class GameMenu extends AppCompatActivity implements View.OnClickListener {
     private Button mStartButton;
     private Button mSettingsButton;
 
@@ -33,12 +29,7 @@ public class GameMenu extends AppCompatActivity {
         mStartButton = (Button) findViewById(R.id.start_button);
         mSettingsButton = (Button) findViewById(R.id.settings_button);
 
-        mStartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startGameActivity();
-            }
-        });
+        mStartButton.setOnClickListener(this);
     }
 
     @Override
@@ -53,5 +44,14 @@ public class GameMenu extends AppCompatActivity {
     private void startGameActivity() {
         Intent intent = new Intent(this,GamePlay.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.start_button:
+                startGameActivity();
+                break;
+        }
     }
 }
