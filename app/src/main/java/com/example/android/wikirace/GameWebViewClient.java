@@ -1,6 +1,5 @@
 package com.example.android.wikirace;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,9 +16,10 @@ public class GameWebViewClient extends WebViewClient {
 
     private Article mDestArticle;
     private Context mContext;
+    private boolean mCanNavigate;
     public WebViewClientResponse delegate;
 
-    ProgressDialog mProgress;
+//    ProgressDialog mProgress;
 
 
     public interface WebViewClientResponse {
@@ -29,7 +29,12 @@ public class GameWebViewClient extends WebViewClient {
     public GameWebViewClient(Article destArticle, Context context) {
         mDestArticle = destArticle;
         mContext = context;
-        mProgress = new ProgressDialog(context);
+        mCanNavigate = true;
+//        mProgress = new ProgressDialog(context);
+    }
+
+    public void setNoNavigate(){
+        mCanNavigate = false;
     }
 
     @Override
@@ -54,8 +59,8 @@ public class GameWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         super.onPageStarted(view, url, favicon);
-        mProgress.setMessage("Fetching Article");
-        mProgress.show();
+//        mProgress.setMessage("Fetching Article");
+//        mProgress.show();
     }
 
     @Override
@@ -66,50 +71,57 @@ public class GameWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         // Get rid of progress
-        mProgress.dismiss();
+//        mProgress.dismiss();
         delegate.pageLoaded();
     }
 
     private void hideElements(WebView view) {
         //Remove Header
         view.loadUrl("javascript:(function() { " +
-                "document.getElementsByClassName('header')[0].remove(); })()");
-        //Remove Edit buttons
-        view.loadUrl(
-                "javascript:(function() { " +
+                "document.getElementsByClassName('header')[0].remove();" +
+                " })()"
+        );
+        view.loadUrl("javascript:(function() { " +
+                        //Remove Edit buttons
                         "var editButtons = document.getElementsByClassName('mw-ui-icon mw-ui-icon-element mw-ui-icon-edit-enabled');" +
                         "var i; " +
                         "for(i = 0; i < editButtons.length; i++) { " +
-                                "editButtons[i].remove(); " +
-                            "}" +
-                        "})()"
+                        "editButtons[i].remove(); " +
+                        "}" +
+                        " })()"
         );
-
-
-        //Remove Language Selector
-        view.loadUrl(
-                "javascript:(function() { " +
+        view.loadUrl("javascript:(function() { " +
+                        //Remove the watch me thing
+                        "document.getElementById('ca-watch');" +
+                        " })()"
+        );
+        view.loadUrl("javascript:(function() { " +
+                        //Remove Language Selector
                         "document.getElementsByClassName('languageSelector mw-ui-button button')[0].remove(); " +
-                        "})()"
+                        " })()"
         );
 
-        //Remove Last Modified By
-        view.loadUrl(
-                "javascript:(function() { " +
-                        "document.getElementsByClassName('truncated-text last-modified-bottom')[0].remove(); " +
-                        "})()"
+        view.loadUrl("javascript:(function() { " +
+                        //Remove Last Edited By Selector
+                        "document.getElementsByClassName('truncated-text')[0].remove();" +
+                        " })()"
         );
-        //Remove Footer
-        view.loadUrl(
-                "javascript:(function() { " +
-                    "document.getElementsByClassName('footer-info')[0].remove(); " +
-                "})()"
+
+        view.loadUrl("javascript:(function() { " +
+                        //Remove References Selector
+                        "document.getElementsByClassName('references')[0].remove();" +
+                        " })()"
         );
-        //Remove Footer
-        view.loadUrl(
-                "javascript:(function() { " +
+
+        view.loadUrl("javascript:(function() { " +
+                        //Remove Footer
+                        "document.getElementsByClassName('footer-info')[0].remove(); " +
+                        " })()"
+        );
+        view.loadUrl("javascript:(function() { " +
+                        //Remove Footer
                         "document.getElementsByClassName('footer-places')[0].remove(); " +
-                        "})()"
+                        " })()"
         );
     }
 }

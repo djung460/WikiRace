@@ -9,82 +9,79 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.example.android.wikirace.GamePlay">
+        tools:context="com.example.android.wikirace.GamePlay"
+        android:id = "@+id/game_screen">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id = "@+id/game_screen">
+            android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/back_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="left"
                 android:layout_margin="4dp"
                 android:background="@drawable/ic_arrow_back_48pt_3x" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:background="@android:color/white"
                 android:text="@string/pages_visited_heading"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/num_pages_visited"
-                android:layout_width="50dp"
-                android:layout_gravity="center_vertical"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="@string/num_pages_visited"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:id="@+id/num_pages_visited"/>
 
             <ImageButton
                 android:id="@+id/restart_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="4dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="right"
                 android:background="@drawable/ic_refresh_black_48dp"/>
-        </LinearLayout>
+        </FrameLayout>
 
         <WebView
             android:id="@+id/wiki_web_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:background="@drawable/border">
         </WebView>
 
         <TextView
             android:id="@+id/dest_article_title_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:padding="4dp"
             android:singleLine="true"
             android:text="@string/destination_article"
-            android:textSize="20sp" />
+            android:textSize="28sp" />
     </LinearLayout>
 
-    <!--DEST ARTICLE SCREEN-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id = "@+id/dest_article_screen">
+        android:layout_height="320dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:id="@+id/dest_article_preview">
+
+        <View
+            android:id="@+id/slide_handle"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:padding="4dp" />
 
         <WebView
             android:id="@+id/dest_wiki_web_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/border">
         </WebView>
 
     </LinearLayout>
+
 </FrameLayout>
