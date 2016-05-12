@@ -91,28 +91,20 @@ public class GameWebViewClient extends WebViewClient {
                         " })()"
         );
         view.loadUrl("javascript:(function() { " +
-                        //Remove the watch me thing
-                        "document.getElementById('ca-watch');" +
-                        " })()"
-        );
-        view.loadUrl("javascript:(function() { " +
                         //Remove Language Selector
                         "document.getElementsByClassName('languageSelector mw-ui-button button')[0].remove(); " +
                         " })()"
         );
-
         view.loadUrl("javascript:(function() { " +
                         //Remove Last Edited By Selector
                         "document.getElementsByClassName('truncated-text')[0].remove();" +
                         " })()"
         );
-
         view.loadUrl("javascript:(function() { " +
                         //Remove References Selector
                         "document.getElementsByClassName('references')[0].remove();" +
                         " })()"
         );
-
         view.loadUrl("javascript:(function() { " +
                         //Remove Footer
                         "document.getElementsByClassName('footer-info')[0].remove(); " +
@@ -121,6 +113,11 @@ public class GameWebViewClient extends WebViewClient {
         view.loadUrl("javascript:(function() { " +
                         //Remove Footer
                         "document.getElementsByClassName('footer-places')[0].remove(); " +
+                        " })()"
+        );
+        view.loadUrl("javascript:(function() { " +
+                        //Remove the watch me thing
+                        "document.getElementById('ca-watch');" +
                         " })()"
         );
     }
