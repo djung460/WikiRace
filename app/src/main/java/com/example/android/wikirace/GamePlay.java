@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageButton;
@@ -55,6 +57,12 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
     }
 
 
+    /**
+     * Gets called once the AsyncTask finishes fetching the two articles and sets up the
+     * webviews
+     *
+     * @param output
+     */
     @Override
     public void processFinish(List<Article> output) {
         articles = output;
@@ -139,8 +147,8 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
 
     @Override
     public void pageLoaded() {
-        numPagesVisited++;
         String pagesVisited = "Pages Visited: " + Integer.toString(numPagesVisited);
+        numPagesVisited++;
         mPagesVisited.setText(pagesVisited);
     }
 
@@ -200,6 +208,8 @@ public class GamePlay extends AppCompatActivity implements ArticleAsyncTask.Asyn
                 mLastTouchY = y;
 
                 if (mCurrentScreen != R.id.game_screen && dy > 100) {
+                    Animation animHide = AnimationUtils.loadAnimation(this, R.anim.translate);
+                    findViewById(R.id.dest_article_preview).startAnimation(animHide);
                     switchToScreen(R.id.game_screen);
                 }
                 break;
